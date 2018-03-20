@@ -7,7 +7,11 @@
   <title>Redux</title>
 </head>
 <body>
-  
+  <input type="text" id="todo">
+  <button onclick="addTodo()">ADD A NEW TODO</button>
+  <div id="app"></div>
+  <h1 id="counter"></h1>
+  <h1 id="counterType"></h1>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.js"></script>
   <script>
     // FIRST PRINCIPLE => SINGLE SOURCE OF TRUTH => ONLY ONE STORE
@@ -25,6 +29,34 @@
     };
     // CREATING A STORE
     const store = Redux.createStore(reducer);
+
+    const addTodo  = () => {
+      const input = document.getElementById('todo');
+      store.dispatch({
+        type: 'ADD_NEW_TODO_TO_STORE',
+        todo: input.value
+      });
+    };
+
+    const renderTodos = () => {
+      const app = document.getElementById('app');
+      app.innerHTML = store.getState();
+    };
+
+    const renderCounter = () => {
+      const counter = document.getElementById('counter');
+      counter.innerHTML = store.getState().length
+    };
+
+    const renderCounterType = () => {
+      const counterType = document.getElementById('counterType');
+      counterType.innerHTML = store.getState().length % 2 === 0 ? 'EVEN NUMBER OF TODOS': 'ODD NUMBER OF TODOS';
+    };
+
+    store.subscribe(renderTodos);
+    store.subscribe(renderCounter);
+    store.subscribe(renderCounterType);    
+    
     console.log(store.getState());
     store.dispatch({ type: 'ADD_NEW_TODO_TO_STORE', todo: 'Buy some new clothes' });
     console.log(store.getState());
