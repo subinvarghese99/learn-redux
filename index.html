@@ -14,21 +14,24 @@
     // SECOND PRINCIPLE => STORE STATE IS IMMUTABLE => CANNOT BE CHANGED, BUT CAN ONLY BE REPLACED
     // THIRD PRINCIPE => STORE STATE CAN ONLY BE REPLACED/CHANGED BY PURE FUNCTIONS CALLED REDUCERS
     // CREATE A REDUCER
-    const reducer = (oldState, action) => {
-      // computations on what the new state should be.
-      console.log('@@@ this is coming from reducer: ');
-      console.log(oldState, action);
+    const reducer = (oldState = [], action) => {
       if (action.type === 'ADD_NEW_TODO_TO_STORE') {
-        return [{ id: 1, name: 'new todo' }];
+        return [
+          ...oldState,
+          action.todo
+        ];
       }
-      return 'SOME_NEW_STATE';
+      return oldState;
     };
     // CREATING A STORE
     const store = Redux.createStore(reducer);
-    //  console.log(store.getState());
-    // AN ACTION: AN OBJECT DEFINING THE CHANGE TO BE MADE
-    store.dispatch({ type: 'ADD_NEW_TODO_TO_STORE' });
-    console.log(store.getState())
+    console.log(store.getState());
+    store.dispatch({ type: 'ADD_NEW_TODO_TO_STORE', todo: 'Buy some new clothes' });
+    console.log(store.getState());
+    store.dispatch({ type: 'ADD_NEW_TODO_TO_STORE', todo: 'Make my hair' });
+    console.log(store.getState());    
+    store.dispatch({ type: 'UNKNOWN_ACTION' });
+    console.log(store.getState());
   </script>
 </body>
 </html>
