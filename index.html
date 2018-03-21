@@ -13,11 +13,13 @@
   <h1 id="counter"></h1>
   <h1 id="counterType"></h1>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/redux-logger@3.0.6/dist/redux-logger.min.js"></script>
   <script>
     // FIRST PRINCIPLE => SINGLE SOURCE OF TRUTH => ONLY ONE STORE
     // SECOND PRINCIPLE => STORE STATE IS IMMUTABLE => CANNOT BE CHANGED, BUT CAN ONLY BE REPLACED
     // THIRD PRINCIPE => STORE STATE CAN ONLY BE REPLACED/CHANGED BY PURE FUNCTIONS CALLED REDUCERS
     // CREATE A REDUCER
+    const ADD_NEW_TODO_TO_STORE = 'ADD_NEW_TODO_TO_STORE'
     const reducer = (oldState = [], action) => {
       if (action.type === 'ADD_NEW_TODO_TO_STORE') {
         return [
@@ -28,9 +30,7 @@
       return oldState;
     };
     // CREATING A STORE
-    const store = Redux.createStore(reducer);
-
-    const ADD_NEW_TODO_TO_STORE = 'ADD_NEW_TODO_TO_STORE'
+    const store = Redux.createStore(reducer, Redux.applyMiddleware(reduxLogger.default));
 
     const addTodoAction = todo => ({
       type: ADD_NEW_TODO_TO_STORE,
@@ -61,13 +61,12 @@
     store.subscribe(renderCounter);
     store.subscribe(renderCounterType);    
     
-    console.log(store.getState());
     store.dispatch(addTodoAction('Buy some new clothes'));
-    console.log(store.getState());
+
     store.dispatch(addTodoAction('Make my hair'));
-    console.log(store.getState());    
+
     store.dispatch({ type: 'UNKNOWN_ACTION' });
-    console.log(store.getState());
+
   </script>
 </body>
 </html>
