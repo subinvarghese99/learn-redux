@@ -30,12 +30,16 @@
     // CREATING A STORE
     const store = Redux.createStore(reducer);
 
+    const ADD_NEW_TODO_TO_STORE = 'ADD_NEW_TODO_TO_STORE'
+
+    const addTodoAction = todo => ({
+      type: ADD_NEW_TODO_TO_STORE,
+      todo
+    });
+
     const addTodo  = () => {
       const input = document.getElementById('todo');
-      store.dispatch({
-        type: 'ADD_NEW_TODO_TO_STORE',
-        todo: input.value
-      });
+      store.dispatch(addTodoAction(input.value));
     };
 
     const renderTodos = () => {
@@ -58,9 +62,9 @@
     store.subscribe(renderCounterType);    
     
     console.log(store.getState());
-    store.dispatch({ type: 'ADD_NEW_TODO_TO_STORE', todo: 'Buy some new clothes' });
+    store.dispatch(addTodoAction('Buy some new clothes'));
     console.log(store.getState());
-    store.dispatch({ type: 'ADD_NEW_TODO_TO_STORE', todo: 'Make my hair' });
+    store.dispatch(addTodoAction('Make my hair'));
     console.log(store.getState());    
     store.dispatch({ type: 'UNKNOWN_ACTION' });
     console.log(store.getState());
