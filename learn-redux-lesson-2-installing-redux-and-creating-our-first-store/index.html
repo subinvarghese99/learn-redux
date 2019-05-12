@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Redux</title>
+</head>
+<body>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.js"></script>
+  <script>
+    // FIRST PRINCIPLE => SINGLE SOURCE OF TRUTH => ONLY ONE STORE
+    // SECOND PRINCIPLE => STORE STATE IS IMMUTABLE => CANNOT BE CHANGED, BUT CAN ONLY BE REPLACED
+    // THIRD PRINCIPE => STORE STATE CAN ONLY BE REPLACED/CHANGED BY PURE FUNCTIONS CALLED REDUCERS
+    // CREATE A REDUCER
+    const reducer = (oldState, action) => {
+      // computations on what the new state should be.
+      console.log('@@@ this is coming from reducer: ');
+      console.log(oldState, action);
+      if (action.type === 'ADD_NEW_TODO_TO_STORE') {
+        return [{ id: 1, name: 'new todo' }];
+      }
+      return 'SOME_NEW_STATE';
+    };
+    // CREATING A STORE
+    const store = Redux.createStore(reducer);
+    //  console.log(store.getState());
+    // AN ACTION: AN OBJECT DEFINING THE CHANGE TO BE MADE
+    store.dispatch({ type: 'ADD_NEW_TODO_TO_STORE' });
+    console.log(store.getState())
+  </script>
+</body>
+</html>
